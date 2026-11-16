@@ -75,7 +75,7 @@
       <h2>Die Eckdaten</h2>
       <p class="hint">Wird allen angezeigt, wenn sie ihren Link öffnen.</p>
       <div class="grid3">
-        <div><label for="event">Anlass</label><input id="event" placeholder="Weihnachten 2026"></div>
+        <div><label for="event">Anlass</label><input id="event" placeholder="z. B. Weihnachten 2026 (optional)"></div>
         <div><label for="budget">Budget (maximal)</label><input id="budget" value="50 €" placeholder="50 €"></div>
         <div><label for="date">Bescherung</label><input id="date" value="24. Dezember" placeholder="24. Dezember"></div>
       </div>
@@ -251,22 +251,12 @@
     $("count").textContent = n ? `${n} ${n===1?"Person":"Personen"}` : "";
     save();
   }
-  function save(){
-    try{
-      localStorage.setItem(STORE, JSON.stringify({
-        event:$("event").value, budget:$("budget").value, date:$("date").value,
-        people:[...peopleEl.querySelectorAll(".row")].map(r=>[r.querySelector(".pname").value, r.querySelector(".phouse").value])
-      }));
-    }catch(e){}
-  }
+  function save(){}
   function load(){
-    let s=null; try{ s = JSON.parse(localStorage.getItem(STORE)); }catch(e){}
-    if(s){
-      $("event").value=s.event||""; $("budget").value=s.budget||"50 €"; $("date").value=s.date||"24. Dezember";
-      (s.people||[]).forEach(([n,h])=>addRow(n,h));
-    }
-    if(!peopleEl.children.length){ for(let i=0;i<4;i++) addRow(); }
+    try{ localStorage.removeItem(STORE); }catch(e){}   // clear lists saved by earlier versions
+    for(let i=0;i<4;i++) addRow();
   }
+
   ["event","budget","date"].forEach(id => $(id).addEventListener("input", save));
   $("add").onclick = () => { addRow(); peopleEl.lastChild.querySelector(".pname").focus(); };
 
