@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Family Secret Santa</title>
+<title>Wichtel-Dietrich</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -65,95 +65,83 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Secret <span>Santa</span></h1>
-    <div class="sub" id="subtitle">Draw names for the whole family, then send everyone their own private link.</div>
+    <h1>Wichtel-<span>Dietrich</span></h1>
+    <div class="sub" id="subtitle">Lost die Namen für die ganze Familie aus und schickt allen ihren eigenen, geheimen Link.</div>
   </header>
 
   <!-- ORGANISER VIEW -->
   <section id="setup">
     <div class="card">
-      <h2>The details</h2>
-      <p class="hint">Shown to everyone when they open their link.</p>
+      <h2>Die Eckdaten</h2>
+      <p class="hint">Wird allen angezeigt, wenn sie ihren Link öffnen.</p>
       <div class="grid3">
-        <div><label for="event">Event name</label><input id="event" placeholder="Family Christmas 2026"></div>
-        <div><label for="budget">Budget</label><input id="budget" placeholder="€30"></div>
-        <div><label for="date">Exchange date</label><input id="date" placeholder="25 Dec"></div>
+        <div><label for="event">Anlass</label><input id="event" placeholder="Weihnachten 2026"></div>
+        <div><label for="budget">Budget (maximal)</label><input id="budget" value="50 €" placeholder="50 €"></div>
+        <div><label for="date">Bescherung</label><input id="date" value="24. Dezember" placeholder="24. Dezember"></div>
       </div>
     </div>
 
     <div class="card">
-      <h2>Who's taking part</h2>
-      <p class="hint">Give people the same <b>household</b> (e.g. “Lyon”, “Martin family”) if they shouldn't draw each other — couples, people who live together. Leave it blank otherwise.</p>
-      <div class="row-head"><div>Name</div><div>Household (optional)</div><div></div></div>
+      <h2>Wer macht mit?</h2>
+      <p class="hint">Gebt Personen denselben <b>Haushalt</b> (z. B. „Berlin“, „Familie Müller“), wenn sie sich nicht gegenseitig ziehen sollen – etwa Paare oder Leute, die zusammenwohnen. Sonst einfach leer lassen.</p>
+      <div class="row-head"><div>Name</div><div>Haushalt (optional)</div><div></div></div>
       <div id="people"></div>
       <div class="actions" style="margin-top:10px">
-        <button class="ghost" id="add">+ Add person</button>
+        <button class="ghost" id="add">+ Person hinzufügen</button>
         <span class="hint" id="count" style="margin:0"></span>
       </div>
     </div>
 
     <div class="card">
-      <h2>Draw</h2>
-      <p class="hint">You won't see who got whom — each result is scrambled into a private code that only reveals one match.</p>
-      <label for="base">Shared link to this page (optional)</label>
-      <input id="base" placeholder="Paste the share link of this page, e.g. https://claude.ai/…">
-      <p class="hint" style="margin-top:6px">If you paste it, each person gets a one-click link. Without it, they get a code to paste into this page.</p>
-      <div class="actions"><button class="btn-red" id="draw">🎁 Draw names</button></div>
+      <h2>Auslosen</h2>
+      <p class="hint">Du siehst nicht, wer wen gezogen hat – jede Person bekommt einen eigenen Link, der nur ihre Zuordnung verrät.</p>
+      <div class="actions"><button class="btn-red" id="draw">🎁 Namen auslosen</button></div>
       <div class="err" id="err"></div>
     </div>
 
     <div class="card hidden" id="results">
-      <h2>Send these out</h2>
-      <p class="hint">Copy each person's message and send it privately (WhatsApp, SMS, email). Drawing again creates a completely new draw — only send one set.</p>
+      <h2>Jetzt verschicken</h2>
+      <p class="hint">Kopiere die Nachricht für jede Person und schicke sie ihr privat (WhatsApp, SMS, E-Mail). Neu auslosen erzeugt eine komplett neue Ziehung – verschicke nur eine davon.</p>
       <div id="resultList"></div>
-      <div class="actions" style="margin-top:14px"><button class="ghost" id="copyAll">Copy all messages</button></div>
+      <div class="actions" style="margin-top:14px"><button class="ghost" id="copyAll">Alle Nachrichten kopieren</button></div>
     </div>
 
     <div class="card">
       <details>
-        <summary>How it works</summary>
+        <summary>So funktioniert’s</summary>
         <ol class="steps">
-          <li>Add everyone's name, and group people who shouldn't draw each other into a household.</li>
-          <li>Share this page (Share button on claude.ai) so relatives can open it, then paste that link above.</li>
-          <li>Press <b>Draw names</b> and send each person their own message.</li>
-          <li>Each person opens their link (or pastes their code below) and sees only who they're buying for.</li>
+          <li>Trage alle Namen ein und gib Personen, die sich nicht ziehen sollen, denselben Haushalt.</li>
+          <li>Prüfe Anlass, Budget und Datum.</li>
+          <li>Klicke auf <b>Namen auslosen</b> und schicke jeder Person ihre eigene Nachricht.</li>
+          <li>Jede Person tippt auf ihren Link und sieht nur, wen sie beschenkt.</li>
         </ol>
       </details>
     </div>
 
-    <div class="card">
-      <h2>Got a code?</h2>
-      <p class="hint">Paste the code you were sent to see who you're buying for.</p>
-      <div class="actions" style="flex-wrap:nowrap">
-        <input id="codeIn" placeholder="s-…">
-        <button class="btn" id="codeGo">Reveal</button>
-      </div>
-      <div class="err" id="codeErr"></div>
-    </div>
   </section>
 
   <!-- PARTICIPANT VIEW -->
   <section id="revealView" class="hidden">
     <div class="card reveal">
       <div id="hello" style="font-size:18px"></div>
-      <svg class="gift" id="gift" viewBox="0 0 120 120" aria-label="Open your gift" role="button">
+      <svg class="gift" id="gift" viewBox="0 0 120 120" aria-label="Geschenk öffnen" role="button">
         <rect x="18" y="50" width="84" height="58" rx="6" fill="#b3362b"/>
         <rect x="12" y="36" width="96" height="20" rx="5" fill="#c9443a" id="lid"/>
         <rect x="54" y="36" width="12" height="72" fill="#c49a3a"/>
         <path d="M60 36 C44 18 30 26 40 36 Z M60 36 C76 18 90 26 80 36 Z" fill="#c49a3a"/>
       </svg>
-      <div id="tapHint" class="hint" style="margin:0">Tap the present to see who you're buying for</div>
+      <div id="tapHint" class="hint" style="margin:0">Tippe auf das Geschenk, um zu sehen, wen du beschenkst</div>
       <div id="answer" class="hidden">
-        <div class="hint" style="margin:0">You're Secret Santa for</div>
+        <div class="hint" style="margin:0">Du bist der Wichtel für</div>
         <div class="big" id="recipient"></div>
         <div class="meta" id="meta"></div>
-        <p class="hint" style="margin-top:20px">Keep it secret! 🤫</p>
+        <p class="hint" style="margin-top:20px">Nicht verraten! 🤫</p>
       </div>
     </div>
-    <div style="text-align:center"><button class="ghost" id="backBtn">Organise your own draw</button></div>
+    <div style="text-align:center"><button class="ghost" id="backBtn">Eigene Auslosung starten</button></div>
   </section>
 
-  <footer>Nothing is sent anywhere — the draw happens in your browser.</footer>
+  <footer>Es wird nichts verschickt oder gespeichert – die Auslosung passiert nur in deinem Browser.</footer>
 </div>
 
 <script>
@@ -181,19 +169,32 @@
     for(let i=0;i<bytes.length;i++) out[i] = bytes[i] ^ k[i%k.length] ^ ((salt*31 + i*17) & 255);
     return out;
   }
+  // Short codes: only the two names go in; budget/date are left out when they match the defaults.
+  const DEF_B = "50 €", DEF_D = "24. Dezember", SEP = "\x1f";
+  function b64enc(bytes){ let bin=""; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+  function b64dec(str){ const bin=atob(str.replace(/-/g,"+").replace(/_/g,"/")); return Uint8Array.from(bin,c=>c.charCodeAt(0)); }
+  const packOpt = (v,def) => v===def ? "" : (v==="" ? "~" : v);
+  const unpackOpt = (v,def) => v===undefined || v==="" ? def : (v==="~" ? "" : v);
   function encode(obj){
+    const f = [obj.g, obj.r, obj.e||"", packOpt(obj.b,DEF_B), packOpt(obj.d,DEF_D)];
+    while(f.length>2 && f[f.length-1]==="") f.pop();
     const salt = randInt(256);
-    const body = scramble(new TextEncoder().encode(JSON.stringify(obj)), salt);
+    const body = scramble(new TextEncoder().encode(f.join(SEP)), salt);
     const all = new Uint8Array(body.length+1); all[0]=salt; all.set(body,1);
-    return "s-" + b32enc(all);
+    return "w" + b64enc(all);
   }
   function decode(code){
-    code = code.trim().replace(/^.*#/,"").toLowerCase();
-    if(!code.startsWith("s-")) throw new Error("bad");
+    code = code.trim().replace(/^.*#/,"");
+    if(code.startsWith("s-")) return decodeOld(code.toLowerCase());
+    if(!code.startsWith("w")) throw new Error("bad");
+    const all = b64dec(code.slice(1));
+    const f = new TextDecoder("utf-8",{fatal:true}).decode(scramble(all.slice(1), all[0])).split(SEP);
+    if(f.length<2 || !f[0] || !f[1]) throw new Error("bad");
+    return { g:f[0], r:f[1], e:f[2]||"", b:unpackOpt(f[3],DEF_B), d:unpackOpt(f[4],DEF_D) };
+  }
+  function decodeOld(code){
     const all = b32dec(code.slice(2));
-    const salt = all[0];
-    const json = new TextDecoder().decode(scramble(all.slice(1), salt));
-    const o = JSON.parse(json);
+    const o = JSON.parse(new TextDecoder().decode(scramble(all.slice(1), all[0])));
     if(!o || !o.g || !o.r) throw new Error("bad");
     return o;
   }
@@ -230,7 +231,7 @@
   const peopleEl = $("people");
   function addRow(name="", house=""){
     const row = document.createElement("div"); row.className="row";
-    row.innerHTML = `<input class="pname" placeholder="Name"><input class="phouse" placeholder="—"><button class="x" title="Remove">×</button>`;
+    row.innerHTML = `<input class="pname" placeholder="Name"><input class="phouse" placeholder="—"><button class="x" title="Entfernen">×</button>`;
     row.querySelector(".pname").value = name;
     row.querySelector(".phouse").value = house;
     row.querySelector(".x").onclick = () => { row.remove(); refresh(); };
@@ -247,13 +248,13 @@
   }
   function refresh(){
     const n = readPeople().length;
-    $("count").textContent = n ? `${n} ${n===1?"person":"people"}` : "";
+    $("count").textContent = n ? `${n} ${n===1?"Person":"Personen"}` : "";
     save();
   }
   function save(){
     try{
       localStorage.setItem(STORE, JSON.stringify({
-        event:$("event").value, budget:$("budget").value, date:$("date").value, base:$("base").value,
+        event:$("event").value, budget:$("budget").value, date:$("date").value,
         people:[...peopleEl.querySelectorAll(".row")].map(r=>[r.querySelector(".pname").value, r.querySelector(".phouse").value])
       }));
     }catch(e){}
@@ -261,61 +262,57 @@
   function load(){
     let s=null; try{ s = JSON.parse(localStorage.getItem(STORE)); }catch(e){}
     if(s){
-      $("event").value=s.event||""; $("budget").value=s.budget||""; $("date").value=s.date||""; $("base").value=s.base||"";
+      $("event").value=s.event||""; $("budget").value=s.budget||"50 €"; $("date").value=s.date||"24. Dezember";
       (s.people||[]).forEach(([n,h])=>addRow(n,h));
     }
     if(!peopleEl.children.length){ for(let i=0;i<4;i++) addRow(); }
-    // When hosted on its own website (not inside claude.ai), fill in the page's own address automatically
-    let topLevel=false; try{ topLevel = window.top===window; }catch(e){}
-    if(topLevel && /^https?:$/.test(location.protocol) && !$("base").value){ $("base").value = location.href.replace(/#.*$/,""); }
   }
-  ["event","budget","date","base"].forEach(id => $(id).addEventListener("input", save));
+  ["event","budget","date"].forEach(id => $(id).addEventListener("input", save));
   $("add").onclick = () => { addRow(); peopleEl.lastChild.querySelector(".pname").focus(); };
 
   let messages = [];
   $("draw").onclick = () => {
     const err = $("err"); err.textContent="";
     const people = readPeople();
-    if(people.length < 3){ err.textContent = "Add at least 3 people."; return; }
+    if(people.length < 3){ err.textContent = "Bitte mindestens 3 Personen eintragen."; return; }
     const lower = people.map(p=>p.name.toLowerCase());
     const dup = lower.find((n,i)=>lower.indexOf(n)!==i);
-    if(dup){ err.textContent = `“${people[lower.indexOf(dup)].name}” appears twice — add a surname or initial to tell them apart.`; return; }
+    if(dup){ err.textContent = `„${people[lower.indexOf(dup)].name}“ steht doppelt da – ergänze einen Nachnamen oder Anfangsbuchstaben.`; return; }
     const assign = draw(people);
-    if(!assign){ err.textContent = "No valid draw is possible with these households — one household is probably more than half the group. Try splitting it up."; return; }
+    if(!assign){ err.textContent = "Mit diesen Haushalten ist keine gültige Auslosung möglich – vermutlich ist ein Haushalt größer als die halbe Gruppe. Teile ihn auf."; return; }
 
     const ev = $("event").value.trim(), bu = $("budget").value.trim(), da = $("date").value.trim();
-    const base = $("base").value.trim().replace(/#.*$/,"");
+    const SITE = "https://dietrichsimon.github.io/secret-santa/";
+    const base = /^https?:$/.test(location.protocol) && !/claude/.test(location.hostname) ? location.href.replace(/#.*$/,"") : SITE;
     messages = people.map((p,i) => {
       const code = encode({g:p.name, r:people[assign[i]].name, e:ev, b:bu, d:da});
-      const intro = `Hi ${p.name}! 🎅 Your Secret Santa draw${ev?` for ${ev}`:""} is ready.`;
-      const body = base
-        ? `${intro}\nOpen your private link to see who you're buying for:\n${base}#${code}`
-        : `${intro}\nOpen the Secret Santa page and paste this code in “Got a code?”:\n${code}`;
-      const extra = [bu && `Budget: ${bu}`, da && `Exchange: ${da}`].filter(Boolean).join(" · ");
-      return { name:p.name, code, text: body + (extra?`\n${extra}`:"") + `\nKeep it secret! 🤫` };
+      const intro = `Hallo ${p.name}! 🎅 Die Auslosung bei Wichtel-Dietrich${ev?` für ${ev}`:""} ist fertig.`;
+      const body = `${intro}\nÖffne deinen geheimen Link, um zu sehen, wen du beschenkst:\n${base}#${code}`;
+      const extra = [bu && `Budget: max. ${bu}`, da && `Bescherung: ${da}`].filter(Boolean).join(" · ");
+      return { name:p.name, code, text: body + (extra?`\n${extra}`:"") + `\nNicht verraten! 🤫` };
     });
 
     const list = $("resultList"); list.innerHTML="";
     messages.forEach(m => {
       const div = document.createElement("div"); div.className="result";
-      div.innerHTML = `<div><div class="who"></div><div class="code"></div></div><button class="ghost">Copy message</button>`;
+      div.innerHTML = `<div><div class="who"></div><div class="code"></div></div><button class="ghost">Nachricht kopieren</button>`;
       div.querySelector(".who").textContent = m.name;
-      div.querySelector(".code").textContent = m.code.slice(0,18)+"…";
+      div.querySelector(".code").textContent = m.code.slice(0,10)+"…";
       const b = div.querySelector("button");
-      b.onclick = () => copy(m.text, b, "Copy message");
+      b.onclick = () => copy(m.text, b, "Nachricht kopieren");
       list.appendChild(div);
     });
     $("results").classList.remove("hidden");
     $("results").scrollIntoView({behavior:"smooth", block:"start"});
   };
-  $("copyAll").onclick = (e) => copy(messages.map(m=>`--- For ${m.name} ---\n${m.text}`).join("\n\n"), e.target, "Copy all messages");
+  $("copyAll").onclick = (e) => copy(messages.map(m=>`--- Für ${m.name} ---\n${m.text}`).join("\n\n"), e.target, "Alle Nachrichten kopieren");
 
   function copy(text, btn, label){
-    const done = () => { btn.textContent="Copied ✓"; btn.classList.add("copied"); setTimeout(()=>{btn.textContent=label; btn.classList.remove("copied");},1600); };
+    const done = () => { btn.textContent="Kopiert ✓"; btn.classList.add("copied"); setTimeout(()=>{btn.textContent=label; btn.classList.remove("copied");},1600); };
     const fallback = () => {
       const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select();
       let ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
-      ta.remove(); if(ok) done(); else { btn.textContent="Select & copy manually"; showText(text); }
+      ta.remove(); if(ok) done(); else { btn.textContent="Bitte manuell kopieren"; showText(text); }
     };
     try{ navigator.clipboard.writeText(text).then(done, fallback); }catch(e){ fallback(); }
   }
@@ -327,25 +324,19 @@
   // ---------- reveal ----------
   function showReveal(o){
     $("setup").classList.add("hidden"); $("revealView").classList.remove("hidden");
-    $("subtitle").textContent = o.e || "Your Secret Santa match";
-    $("hello").textContent = `Hi ${o.g}! 👋`;
+    $("subtitle").textContent = o.e || "Dein Wichtel-Los";
+    $("hello").textContent = `Hallo ${o.g}! 👋`;
     $("recipient").textContent = o.r;
     const meta = $("meta"); meta.innerHTML="";
-    [["💶 Budget",o.b],["📅 Exchange",o.d]].forEach(([k,v])=>{ if(v){ const d=document.createElement("div"); d.textContent=`${k}: ${v}`; meta.appendChild(d);} });
+    [["💶 Budget",o.b&&("max. "+o.b)],["📅 Bescherung",o.d]].forEach(([k,v])=>{ if(v){ const d=document.createElement("div"); d.textContent=`${k}: ${v}`; meta.appendChild(d);} });
     $("answer").classList.add("hidden"); $("tapHint").classList.remove("hidden");
   }
   $("gift").onclick = () => { $("gift").classList.add("open"); setTimeout(()=>{ $("answer").classList.remove("hidden"); $("tapHint").classList.add("hidden"); },250); };
-  $("backBtn").onclick = () => { try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} location.hash=""; $("revealView").classList.add("hidden"); $("setup").classList.remove("hidden"); $("subtitle").textContent="Draw names for the whole family, then send everyone their own private link."; };
-  $("codeGo").onclick = () => {
-    $("codeErr").textContent="";
-    try{ showReveal(decode($("codeIn").value)); window.scrollTo(0,0); }
-    catch(e){ $("codeErr").textContent="That code doesn't look right — check you copied all of it."; }
-  };
-  $("codeIn").addEventListener("keydown", e=>{ if(e.key==="Enter") $("codeGo").click(); });
+  $("backBtn").onclick = () => { try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} location.hash=""; $("revealView").classList.add("hidden"); $("setup").classList.remove("hidden"); $("subtitle").textContent="Lost die Namen für die ganze Familie aus und schickt allen ihren eigenen, geheimen Link."; };
 
   function route(){
     const h = location.hash.slice(1);
-    if(h && h.startsWith("s-")){ try{ showReveal(decode(h)); return; }catch(e){} }
+    if(h && (h.startsWith("w") || h.startsWith("s-"))){ try{ showReveal(decode(h)); return; }catch(e){} }
   }
   window.addEventListener("hashchange", route);
   load(); route();
